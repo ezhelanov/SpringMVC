@@ -1,0 +1,22 @@
+.form {
+    width: 150px;
+    margin: 0 auto;
+    border: 1px dashed red;
+    text-align: center
+}
+.form button:hover {
+    cursor: pointer;
+}
+.form button[type="submit"] {
+    background-color: greenyellow
+}
+.form button[type="button"] {
+    background-color: palevioletred
+}
+.form button a {
+    text-decoration: none;
+    color: black
+}
+#spinner {
+    visibility: hidden;
+}

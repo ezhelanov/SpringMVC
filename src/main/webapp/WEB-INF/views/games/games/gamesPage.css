@@ -1,0 +1,13 @@
+.hidden-underline {
+    text-decoration-line: none
+}
+.little-icon {
+    width: 10px;
+    height: 10px
+}
+h3 {
+    background-color: ivory
+}
+.egor-content-box {
+    width: fit-content;
+}

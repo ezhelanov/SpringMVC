@@ -1,0 +1,17 @@
+.box {
+    display: flex;
+    justify-content: space-between;
+}
+.box-center {
+    display: flex;
+    justify-content: center;
+}
+.form {
+    width: 300px;
+    margin: 0 auto;
+}
+.error-message {
+    color: red;
+    font-size: xx-small;
+    display:block
+}

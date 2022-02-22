@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+  <!--
+       Расположение файла с пропертями, которые можно использовать для бинов,
+       описанных в файле applicationContext.xml
+  -->
+  <context:property-placeholder location="classpath:application.properties"/>
+  <!-- _____________________________________________________________________ -->
+
+  <context:component-scan base-package="egor.spring.daos"/>
+  <context:component-scan base-package="egor.spring.services"/>
+  <context:component-scan base-package="egor.spring.utils"/>
+  <bean class="java.util.Random"/>
+
+  <!-- Обновляем прототайп в синглтоне для ExceptionService -->
+  <util:map id="mapOfMessages"
+            map-class="java.util.LinkedHashMap"
+            key-type="java.lang.String"
+            value-type="java.lang.Object"
+            scope="prototype"
+  />
+  <bean class="egor.spring.api.ExceptionService">
+    <lookup-method name="getMapOfMessages" bean="mapOfMessages"/>
+  </bean>
+  <!-- ________________________________ -->
+
+  <!-- JDBC Driver, JDBC Template -->
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${database.driver}"/>
+    <property name="url" value="${database.url}"/>
+    <property name="username" value="${database.username}"/>
+    <property name="password" value="${database.password}"/>
+  </bean>
+  <bean class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg name="dataSource" ref="dataSource"/>
+  </bean>
+  <!-- ___________________________ -->
+
+</beans>
