@@ -4,6 +4,8 @@ import egor.core.entities.Game;
 import egor.spring.daos.GamesDAO;
 import egor.spring.services.AttributesService;
 import egor.spring.utils.EgorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,18 +28,22 @@ public class GamesController extends AbstractGamesController {
     @Autowired
     private EgorUtils egorUtils;
 
+    private final static Logger LOG = LoggerFactory.getLogger(GamesController.class);
+
     @GetMapping
     public String gamesPage(Model model, @RequestParam(required = false) boolean wasRedirectedFromDelete) {
         if (wasRedirectedFromDelete) {
             egorUtils.sleepServer();
             return REDIRECT_PREFIX;
         }
+        LOG.info("gamesPage Model: {}", model.asMap().toString());
         model.addAttribute("ids", gamesDAO.getAllGameIDs());
         return "games/games/gamesPage";
     }
 
     @GetMapping("{id}")
     public String gameDetailsPage(@PathVariable String id, Model model) {
+        LOG.info("Going to game page with id \"{}\"", id);
         Game game = gamesDAO.getGameById(id);
         if (isNull(game)){
             return redirectToGamesPageWithErrorObject(id, model);

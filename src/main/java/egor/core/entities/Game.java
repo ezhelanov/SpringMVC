@@ -3,6 +3,8 @@ package egor.core.entities;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Game {
 
@@ -21,7 +23,10 @@ public class Game {
     this.type = type;
   }
 
-  public Game() { }
+  public Game() {
+    name = LocalTime.now().toString();
+    year = LocalDate.now().getYear();
+  }
 
   public String getName() {
     return name;

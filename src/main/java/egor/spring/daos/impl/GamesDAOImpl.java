@@ -36,11 +36,10 @@ public class GamesDAOImpl implements GamesDAO {
 
   @Override
   public Game getGameById(String id) {
-    LOG.info("Going to game page with id \"{}\"", id);
     try {
       return (Game) jdbcTemplate.queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapper, id);
     } catch (EmptyResultDataAccessException e){
-      LOG.error("No such game with id \"{}\"\" in database", id);
+      LOG.error("No such game with id \"{}\" in database", id);
     }
     return null;
   }
@@ -52,7 +51,7 @@ public class GamesDAOImpl implements GamesDAO {
       "INSERT INTO games (id, name, year, type) VALUE (?,?,?,?)",
       id, game.getName(), game.getYear(), game.getType().toString()
     );
-    LOG.info("Added game {}", game);
+    LOG.info("Added game {} with id \"{}\"", game, id);
   }
 
   @Override
