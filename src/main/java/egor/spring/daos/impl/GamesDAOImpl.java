@@ -40,7 +40,7 @@ public class GamesDAOImpl implements GamesDAO {
     try {
       return (Game) jdbcTemplate.queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapper, id);
     } catch (EmptyResultDataAccessException e){
-      LOG.error("No such game in database", e);
+      LOG.error("No such game with id \"{}\"\" in database", id);
     }
     return null;
   }
