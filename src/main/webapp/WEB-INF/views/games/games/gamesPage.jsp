@@ -12,10 +12,12 @@
 <body>
 
 <h3>Games</h3>
-<c:if test="${errorObj != null}">
-  <div class="alert alert-danger egor-content-box">
-    No such game with id <strong>${errorObj.getId()}</strong> in database !
-  </div>
+<c:if test="${errorObjs != null}">
+  <c:forEach items="${errorObjs}" var="errorObj">
+    <div class="alert alert-danger egor-content-box">
+      No such game with id <strong>${errorObj.getId()}</strong> in database !
+    </div>
+  </c:forEach>
 </c:if>
 <ul>
   <c:forEach items="${ids}" var="id" >

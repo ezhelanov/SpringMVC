@@ -1,5 +1,7 @@
 package egor.core.errors;
 
+import java.util.Objects;
+
 public class GameErrorObject {
 
     private String id;
@@ -10,5 +12,19 @@ public class GameErrorObject {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GameErrorObject){
+            GameErrorObject object = (GameErrorObject) obj;
+            return Objects.equals(id, object.id);
+        }
+        return false;
     }
 }
