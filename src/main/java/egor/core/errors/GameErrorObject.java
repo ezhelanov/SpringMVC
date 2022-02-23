@@ -27,4 +27,9 @@ public class GameErrorObject {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return GameErrorObject.class.getSimpleName() + "[" + id + "]";
+    }
 }
