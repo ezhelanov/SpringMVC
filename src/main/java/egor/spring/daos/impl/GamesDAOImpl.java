@@ -1,7 +1,7 @@
 package egor.spring.daos.impl;
 
-import egor.spring.daos.GamesDAO;
 import egor.core.entities.Game;
+import egor.spring.daos.GamesDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class GamesDAOImpl implements GamesDAO {
     try {
       return (Game) jdbcTemplate.queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapper, id);
     } catch (EmptyResultDataAccessException e){
-      LOG.error("No such game with id \"{}\" in database", id);
+      LOG.error("No game with id \"{}\" found", id);
     }
     return null;
   }
@@ -64,17 +64,19 @@ public class GamesDAOImpl implements GamesDAO {
       if (!gameField.equals(patchedGameField)) {
         String sql = null;
         switch (field.getName()){
-          case "name": sql = "UPDATE games SET name = ? WHERE id = ?";
+          case "name":
+            sql = "UPDATE games SET name = ? WHERE id = ?";
             break;
-          case "year": sql = "UPDATE games SET year = ? WHERE id = ?";
+          case "year":
+            sql = "UPDATE games SET year = ? WHERE id = ?";
             break;
-          case "type": {
+          case "type":
             sql = "UPDATE games SET type = ? WHERE id = ?";
             patchedGameField = patchedGameField.toString();
-          }
             break;
         }
         jdbcTemplate.update(sql, patchedGameField, id);
+        LOG.info("Updated field \"{}\" in game with id \"{}\"", field.getName(), id);
       }
       field.setAccessible(false);
     }

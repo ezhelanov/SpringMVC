@@ -43,7 +43,7 @@ public class GamesController extends AbstractGamesController {
 
     @GetMapping("{id}")
     public String gameDetailsPage(@PathVariable String id, Model model) {
-        LOG.info("Going to game page with id \"{}\"", id);
+        LOG.info("Going to: GET /{}", id);
         Game game = gamesDAO.getGameById(id);
         if (isNull(game)){
             return redirectToGamesPageWithErrorObject(id, model);
