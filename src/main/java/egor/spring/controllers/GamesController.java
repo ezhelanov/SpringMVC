@@ -36,7 +36,6 @@ public class GamesController extends AbstractGamesController {
             egorUtils.sleepServer();
             return REDIRECT_PREFIX;
         }
-        LOG.info("gamesPage Model: {}", model.asMap().toString());
         model.addAttribute("ids", gamesDAO.getAllGameIDs());
         return "games/games/gamesPage";
     }
