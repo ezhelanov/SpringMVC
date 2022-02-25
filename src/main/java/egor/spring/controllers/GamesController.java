@@ -45,7 +45,7 @@ public class GamesController extends AbstractGamesController {
         LOG.info("Going to: GET /{}", id);
         Game game = gamesDAO.getGameById(id);
         if (isNull(game)){
-            return redirectToGamesPageWithErrorObject(id, model);
+            return forwardToGamesPageWithError(id, model);
         }
         model.addAttribute("game", game);
         return "games/game-details/gameDetailsPage";
@@ -73,7 +73,7 @@ public class GamesController extends AbstractGamesController {
         if (!attributesService.hasErrors(model)) {
             Game game = gamesDAO.getGameById(id);
             if (isNull(game)){
-                return redirectToGamesPageWithErrorObject(id, model);
+                return forwardToGamesPageWithError(id, model);
             }
             model.addAttribute("game", game);
         }
