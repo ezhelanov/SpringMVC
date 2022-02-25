@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="LOG_PATTERN_CONSOLE">%-5p [%c{1}.%M(%F:%L)] %m%n</Property>
+        <Property name="LOG_PATTERN_FILE">%d{dd.MM HH:mm:ss} %-5p [%c{1}.%M(%F:%L)] %m%n</Property>
+
+        <Property name="PROJECT_LOG_DIR">C:\\Users\\Zver\\IdeaProjects\\SpringMVC\\src\\main\\resources\\logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="consoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}"/>
+        </Console>
+        <File name="fileAppender" fileName="${PROJECT_LOG_DIR}\\console.log">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN_FILE}</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="consoleAppender"/>
+            <AppenderRef ref="fileAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
