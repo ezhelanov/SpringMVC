@@ -2,8 +2,8 @@
 <Configuration status="WARN" monitorInterval="30">
 
     <Properties>
-        <Property name="LOG_PATTERN_CONSOLE">%-5p [%c{1}.%M(%F:%L)] %m%n</Property>
-        <Property name="LOG_PATTERN_FILE">%d{dd.MM HH:mm:ss} %-5p [%c{1}.%M(%F:%L)] %m%n</Property>
+        <Property name="LOG_PATTERN_CONSOLE">%-5p [%c{1}] %M(java:%L)| %m%n</Property>
+        <Property name="LOG_PATTERN_FILE">%d{dd.MM HH:mm:ss} %-5p [%c{1}] %M(java:%L)| %m%n</Property>
 
         <Property name="PROJECT_LOG_DIR">C:\\Users\\Zver\\IdeaProjects\\SpringMVC\\src\\main\\resources\\logs</Property>
     </Properties>
