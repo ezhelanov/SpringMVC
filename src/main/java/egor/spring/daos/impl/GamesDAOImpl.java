@@ -96,4 +96,12 @@ public class GamesDAOImpl implements GamesDAO {
     jdbcTemplate.update("DELETE FROM games WHERE id = ?", id);
     LOG.info("Deleted game with id \"{}\"", id);
   }
+
+  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+  }
+
+  public void setGameRowMapper(RowMapper gameRowMapper) {
+    this.gameRowMapper = gameRowMapper;
+  }
 }
