@@ -6,81 +6,80 @@ import egor.spring.daos.rowmappers.GameRowMapper;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InOrder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static org.junit.Assert.assertSame;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class) // видит аннотации @Mock, @InjectMocks
 public class GamesDAOImplTest {
 
-    private static Game DEFAULT_GAME = new Game("Fallout New Vegas", 2011, GameType.RPG);
-    private static String DEFAULT_ID = "n456g";
-    private static String QUERY_BY_ID = "SELECT * FROM games WHERE id = ?";
-    private static String UPDATE_NAME;
-    private static String UPDATE_YEAR;
-    private static String UPDATE_TYPE;
+    private static Game DEFAULT_GAME;
+    private static String DEFAULT_ID;
 
     @BeforeClass
-    public static void setUpQueries(){
-        String prefix = "UPDATE games SET ";
-        String postfix = " = ? WHERE id = ?";
-        UPDATE_NAME = prefix + "name" + postfix;
-        UPDATE_YEAR = prefix + "year" + postfix;
-        UPDATE_TYPE = prefix + "type" + postfix;
+    public static void setUpStatic(){
+        DEFAULT_GAME = new Game("Fallout New Vegas", 2011, GameType.RPG);
+        DEFAULT_ID = "n000g";
     }
 
+    @InjectMocks // создаёт объект класса GamesDAOImpl, внедряет в него поля, помеченные @Mock
     private GamesDAOImpl gamesDAOImpl;
 
-    private JdbcTemplate jdbcTemplateMock;
-    private RowMapper<Game> gameRowMapperMock;
+    @Mock // mock(JdbcTemplate.class)
+    private JdbcTemplate jdbcMock;
+
+    @Mock
+    private GameRowMapper gameRowMapperMock;
 
     @Before
     public void setUp(){
-        gamesDAOImpl = new GamesDAOImpl();
-        jdbcTemplateMock = mock(JdbcTemplate.class);
-        gameRowMapperMock = mock(GameRowMapper.class);
-        gamesDAOImpl.setJdbcTemplate(jdbcTemplateMock);
-        gamesDAOImpl.setGameRowMapper(gameRowMapperMock);
-
-        when(jdbcTemplateMock.queryForObject(QUERY_BY_ID, gameRowMapperMock, DEFAULT_ID)).thenReturn(DEFAULT_GAME);
+        given(jdbcMock.queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapperMock, DEFAULT_ID))
+                .willReturn(DEFAULT_GAME);
     }
 
     @Test
-    public void get_game_by_id_test(){
+    public void test_getGameById(){
 
         Game gameFromDAO = gamesDAOImpl.getGameById(DEFAULT_ID);
 
-        verify(jdbcTemplateMock, only()).queryForObject(QUERY_BY_ID, gameRowMapperMock, DEFAULT_ID);
-        verifyNoMoreInteractions(jdbcTemplateMock);
+        verify(jdbcMock, only()).queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapperMock, DEFAULT_ID);
+        verifyNoMoreInteractions(jdbcMock);
         assertSame(DEFAULT_GAME, gameFromDAO);
     }
 
     @Test
-    public void edit_all_fields_test(){
+    public void test_all_fields_were_edited(){
         Game patchedGame = new Game("Fallout New California", 2013, GameType.STEALTH);
 
         gamesDAOImpl.editGame(DEFAULT_ID, patchedGame);
 
-        verify(jdbcTemplateMock, times(3)).update(anyString(), any(), anyString());
+        verify(jdbcMock, times(3)).update(anyString(), any(), anyString());
     }
 
     @Test
-    public void edit_nothing_test(){
-        Game patchedGame = new Game("Fallout New Vegas", 2011, GameType.RPG);
+    public void test_no_fields_were_edited(){
 
-        gamesDAOImpl.editGame(DEFAULT_ID, patchedGame);
+        gamesDAOImpl.editGame(DEFAULT_ID, DEFAULT_GAME);
 
-        verify(jdbcTemplateMock, never()).update(anyString(), any(), anyString());
+        verify(jdbcMock, never()).update(anyString(), any(), anyString());
     }
 
     @Test
-    public void edit_year_field_test(){
-        Game patchedGame = new Game("Fallout New Vegas", 2018, GameType.RPG);
+    public void test_name_and_type_were_edited(){
+        Game patchedGame = new Game("Fallout New California", DEFAULT_GAME.getYear(), GameType.STEALTH);
 
         gamesDAOImpl.editGame(DEFAULT_ID, patchedGame);
 
-        verify(jdbcTemplateMock, times(1)).update(UPDATE_YEAR, patchedGame.getYear(), DEFAULT_ID);
+        InOrder inOrder = inOrder(jdbcMock);
+        inOrder.verify(jdbcMock).update("UPDATE games SET name = ? WHERE id = ?", patchedGame.getName(), DEFAULT_ID);
+        inOrder.verify(jdbcMock).update("UPDATE games SET type = ? WHERE id = ?", patchedGame.getType().toString(), DEFAULT_ID);
     }
 
 }
