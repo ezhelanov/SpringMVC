@@ -17,7 +17,7 @@ public class EgorUtils {
         }
     }
 
-    public void setTimeToSleepInMs(int timeToSleepInMs) {
-        this.timeToSleepInMs = timeToSleepInMs;
+    public int getTimeToSleepInMs() {
+        return timeToSleepInMs;
     }
 }

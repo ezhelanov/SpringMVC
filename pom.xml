@@ -152,6 +152,15 @@
     </dependency>
     <!-- _______ -->
 
+    <!-- Spring Test -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version.to.use}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- ___________ -->
+
   </dependencies>
 
   <build>
