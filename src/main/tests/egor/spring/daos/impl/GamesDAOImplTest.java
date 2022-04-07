@@ -2,7 +2,6 @@ package egor.spring.daos.impl;
 
 import egor.core.entities.Game;
 import egor.core.entities.GameType;
-import egor.spring.daos.rowmappers.GameRowMapper;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,11 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.junit.Assert.assertSame;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class) // видит аннотации @Mock, @InjectMocks
@@ -30,18 +29,15 @@ public class GamesDAOImplTest {
     }
 
     @InjectMocks // создаёт объект класса GamesDAOImpl, внедряет в него поля, помеченные @Mock
+    @Spy // можно переопределять методы реального объекта
     private GamesDAOImpl gamesDAOImpl;
 
     @Mock // mock(JdbcTemplate.class)
     private JdbcTemplate jdbcMock;
 
-    @Mock
-    private GameRowMapper gameRowMapperMock;
-
     @Before
     public void setUp(){
-        given(jdbcMock.queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapperMock, DEFAULT_ID))
-                .willReturn(DEFAULT_GAME);
+        doReturn(DEFAULT_GAME).when(gamesDAOImpl).getGameById(DEFAULT_ID);
     }
 
     @Test
@@ -49,8 +45,7 @@ public class GamesDAOImplTest {
 
         Game gameFromDAO = gamesDAOImpl.getGameById(DEFAULT_ID);
 
-        verify(jdbcMock, only()).queryForObject("SELECT * FROM games WHERE id = ?", gameRowMapperMock, DEFAULT_ID);
-        verifyNoMoreInteractions(jdbcMock);
+        verifyNoInteractions(jdbcMock);
         assertSame(DEFAULT_GAME, gameFromDAO);
     }
 

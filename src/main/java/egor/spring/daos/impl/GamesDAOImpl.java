@@ -97,11 +97,4 @@ public class GamesDAOImpl implements GamesDAO {
     LOG.info("Deleted game with id \"{}\"", id);
   }
 
-  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
-
-  public void setGameRowMapper(RowMapper gameRowMapper) {
-    this.gameRowMapper = gameRowMapper;
-  }
 }
