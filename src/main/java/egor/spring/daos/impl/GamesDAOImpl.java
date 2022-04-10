@@ -97,4 +97,11 @@ public class GamesDAOImpl implements GamesDAO {
     LOG.info("Deleted game with id \"{}\"", id);
   }
 
+  public JdbcTemplate getJdbcTemplate() {
+    return jdbcTemplate;
+  }
+
+  public Random getRandomizer() {
+    return randomizer;
+  }
 }
