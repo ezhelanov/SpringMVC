@@ -13,10 +13,10 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class) // видит аннотации @Mock, @InjectMocks
+@RunWith(MockitoJUnitRunner.class)
 public class GamesDAOImplTest {
 
     private static Game DEFAULT_GAME;
@@ -28,16 +28,22 @@ public class GamesDAOImplTest {
         DEFAULT_ID = "n000g";
     }
 
-    @InjectMocks // создаёт объект класса GamesDAOImpl, внедряет в него поля, помеченные @Mock
-    @Spy // можно переопределять методы реального объекта
+    @InjectMocks
+    @Spy
     private GamesDAOImpl gamesDAOImpl;
 
-    @Mock // mock(JdbcTemplate.class)
+    @Mock
     private JdbcTemplate jdbcMock;
 
     @Before
     public void setUp(){
         doReturn(DEFAULT_GAME).when(gamesDAOImpl).getGameById(DEFAULT_ID);
+    }
+
+    @Test
+    public void test_gamesDAOImpl_autowired_fields() {
+        assertNull(gamesDAOImpl.getRandomizer());
+        assertNotNull(gamesDAOImpl.getJdbcTemplate());
     }
 
     @Test
