@@ -12,7 +12,7 @@ public abstract class AbstractGamesController {
     public abstract String gamesPage(Model model, boolean wasRedirectedFromDelete);
 
     protected String forwardToGamesPageWithError(String id, Model model){
-        LOG.warn("Forwarding to \"/\" from \"/{}\"", id);
+        LOG.debug("Forwarding to \"/\" from \"/{}\"", id);
         model.addAttribute("errorObj", new GameErrorObject(id));
         return gamesPage(model, false);
     }
