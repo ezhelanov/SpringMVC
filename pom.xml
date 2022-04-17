@@ -20,7 +20,7 @@
 
     <!-- Мои переменные -->
     <spring.version.to.use>5.3.6</spring.version.to.use>
-    <slf4j.version.to.use>1.7.25</slf4j.version.to.use>
+    <slf4j.bind.to.log4j2>2.15.0</slf4j.bind.to.log4j2>
     <!-- ______________ -->
 
   </properties>
@@ -116,21 +116,21 @@
     </dependency>
     <!-- ______ -->
 
-    <!-- Logging SLF4J and LOG4J -->
+    <!-- Logging SLF4J with LOG4J2 binding -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.15.0</version>
+      <version>${slf4j.bind.to.log4j2}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.15.0</version>
+      <version>${slf4j.bind.to.log4j2}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.15.0</version>
+      <version>${slf4j.bind.to.log4j2}</version>
     </dependency>
     <!-- _____________ -->
 
