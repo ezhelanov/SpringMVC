@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="ERROR" monitorInterval="30">
 
     <Properties>
-        <Property name="LOG_PATTERN_CONSOLE">%-5p [%c{1}] %M(java:%L)| %m%n</Property>
-        <Property name="LOG_PATTERN_FILE">%d{dd.MM HH:mm:ss} %-5p [%c{1}] %M(java:%L)| %m%n</Property>
-
-        <Property name="PROJECT_LOG_DIR">C:\\Users\\Zver\\IdeaProjects\\SpringMVC\\src\\main\\resources\\logs</Property>
+        <Property name="LOG_PATTERN_CONSOLE">
+            %highlight{%-5p}{TRACE=Blue, DEBUG=Magenta} [%c{1}] %M(java:%L)| %m%n
+        </Property>
+        <Property name="LOG_PATTERN_FILE">
+            %d{dd.MM HH:mm:ss} %-5p [%c{1}] %M(java:%L)| %m%n
+        </Property>
     </Properties>
 
     <Appenders>
         <Console name="consoleAppender" target="SYSTEM_OUT">
-            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}"/>
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}" charset="866" disableAnsi="false"/>
         </Console>
-        <File name="fileAppender" fileName="${PROJECT_LOG_DIR}\\console.log">
-            <PatternLayout>
-                <Pattern>${LOG_PATTERN_FILE}</Pattern>
-            </PatternLayout>
+        <File name="fileAppender" fileName="${env:SPRING_MVC_LOG_DIR}\console.log" append="false">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
         </File>
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="error">
             <AppenderRef ref="consoleAppender"/>
             <AppenderRef ref="fileAppender"/>
         </Root>
+        <Logger name="egor.spring.controllers" level="trace"/>
+        <Logger name="egor.spring.daos" level="info"/>
     </Loggers>
 
 </Configuration>
