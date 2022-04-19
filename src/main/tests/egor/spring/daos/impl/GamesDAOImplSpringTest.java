@@ -31,7 +31,6 @@ import static org.mockito.Mockito.*;
 @TestPropertySource(properties = {
         "database.driver=com.mysql.cj.jdbc.Driver"
 })
-
 public class GamesDAOImplSpringTest {
 
     @ComponentScan(value = {"egor.spring.daos"})
@@ -52,8 +51,8 @@ public class GamesDAOImplSpringTest {
         }
     }
 
-    private static final Game DEFAULT_GAME = new Game("Fallout New Vegas", 2011, GameType.RPG);;
-    private static final String DEFAULT_ID = "n000g";;
+    private static final Game DEFAULT_GAME = new Game("Fallout New Vegas", 2011, GameType.RPG);
+    private static final String DEFAULT_ID = "n000g";
 
     @Autowired
     @InjectMocks
